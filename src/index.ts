@@ -7,7 +7,7 @@ import { glob } from 'glob';
 import chokidar from 'chokidar';
 
 const program = new Command()
-    .name('dux')
+    .name('fsx')
     .description('Provides cross-platform compatible commands that are commonly used in npm package development.')
     .version(version);
 

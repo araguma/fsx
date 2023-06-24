@@ -1,7 +1,7 @@
 {
   "name": "dev-utils",
   "version": "0.1.0",
-  "description": "Provides cross-platform compatible commands that are commonly used in npm package development.",
+  "description": "A collection of cross-platform compatible, file system manipulation commands.",
   "main": "index.js",
   "scripts": {
     "build": "npx tsc"
@@ -34,6 +34,6 @@
     "glob": "^10.3.0"
   },
   "bin": {
-    "dux": "./dist/bin/src/index.js"
+    "fsx": "./dist/bin/src/index.js"
   }
 }
