@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { Command }  from 'commander';
-import fs from 'fs-extra';
-import { globSync } from 'glob';
-import chokidar from 'chokidar';
 import { version } from '../package.json';
+import fs from 'node:fs/promises';
+import readline from 'node:readline/promises';
+import { Command }  from 'commander';
+import { glob } from 'glob';
+import chokidar from 'chokidar';
 
 const program = new Command()
     .name('dux')
@@ -13,17 +14,35 @@ const program = new Command()
 program.command('rm')
     .description('Remove files or directories.')
     .argument('<string>', 'Files or directories')
-    .option('-r, --recursive', 'Remove subdirectories recursively')
-    .option('-f, --force', 'Remove without confirmation')
-    .option('-i, --ignore', 'Files or directories to ignore')
+    .option('-r, --recursive', 'Remove subdirectories recursively', false)
+    .option('-f, --force', 'Remove without confirmation', false)
+    .option('-i, --ignore <string>', 'Files or directories to ignore')
     .action(rm);
 
-function rm(pattern: string, options: {
+async function rm(pattern: string, options: {
     recursive?: boolean,
     force?: boolean,
-    ignore?: boolean,
+    ignore?: string,
 }) {
-    console.log(pattern, options);
+    const paths = await glob(pattern, {
+        ignore: options.ignore,
+    });
+    if(!options.force) {
+        const rl = readline.createInterface(process.stdin, process.stdout);
+        let response = (await rl.question(`Delete ${pattern}? (y) `)).toLowerCase();
+        rl.close();
+        if(response !== 'y' && response !== '')
+            return console.log('Operation canceled');
+    }
+    let removeCount = paths.length;
+    await Promise.all(paths.map(async (path) => {
+        await fs.rm(path, {
+            recursive: options.recursive,
+        }).catch(() => {
+            removeCount --;
+        });
+    }));
+    console.log(`Successfully deleted ${removeCount} file(s)`);
 }
 
 program.command('cp')
@@ -31,14 +50,14 @@ program.command('cp')
     .argument('<string>', 'Source files or directories')
     .argument('<string>', 'Destination directory')
     .option('-i, --ignore <string>', 'Files or directories to ignore')
-    .option('-w, --watch', 'Starts watch mode')
+    .option('-w, --watch [string]', 'Starts watch mode', './')
     .action(cp);
 
-function cp(srcPattern: string, destPath: string, options: {
+async function cp(pattern: string, destPath: string, options: {
     ignore?: string,
     watch?: boolean,
 }) {
-    console.log(srcPattern, destPath, options);
+
 }
 
 program.parse();
