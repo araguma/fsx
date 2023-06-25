@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 import { version } from '../package.json';
-import fs from 'node:fs/promises';
-import { CopyOptions } from 'node:fs';
+import fs from 'node:fs';
 import { join } from 'node:path';
-import readline from 'node:readline/promises';
 import { Command }  from 'commander';
-import { glob } from 'glob';
+import { globSync } from 'glob';
 import chokidar from 'chokidar';
 
 const program = new Command()
@@ -17,29 +15,24 @@ program.command('rm')
     .description('Remove files or directories.')
     .argument('<string>', 'Files or directories')
     .option('-r, --recursive', 'Remove subdirectories recursively', false)
-    .option('-f, --force', 'Remove without confirmation', false)
+    .option('-f, --force', 'Force remove', false)
     .option('-i, --ignore <string>', 'Files or directories to ignore')
     .action(rm);
 
-async function rm(pattern: string, options: {
+function rm(pattern: string, options: {
     recursive?: boolean,
     force?: boolean,
     ignore?: string,
 }) {
-    if(!options.force && !(await prompt(`Delete ${pattern}? (y) `)).match(/y|^$/ig))
-        return console.log('Operation canceled');
-    const srcPaths = await glob(pattern, {
+    const srcPaths = globSync(pattern, {
         ignore: options.ignore,
     });
-    let removeCount = srcPaths.length;
-    await Promise.all(srcPaths.map(async (srcPath) => {
-        await fs.rm(srcPath, {
+    srcPaths.forEach((srcPath) => {
+        fs.rmSync(srcPath, {
             recursive: options.recursive,
-        }).catch(() => {
-            removeCount --;
-        });
-    }));
-    console.log(`Successfully deleted ${removeCount} file(s)`);
+            force: options.force,
+        })
+    });
 }
 
 program.command('cp')
@@ -47,40 +40,32 @@ program.command('cp')
     .argument('<string>', 'Source files or directories')
     .argument('<string>', 'Destination directory')
     .option('-r, --recursive', 'Copy subdirectories recursively', false)
+    .option('-f, --force', 'Force copy', false)
     .option('-i, --ignore <string>', 'Files or directories to ignore')
-    .option('-w, --watch [string]', 'Starts watch mode on source or provided glob')
+    .option('-w, --watch', 'Starts watch mode on source or provided glob', false)
     .action(cp);
 
-async function cp(pattern: string, destPath: string, options: {
+function cp(pattern: string, destPath: string, options: {
     recursive?: boolean,
+    force?: boolean,
     ignore?: string,
-    watch?: true | string,
+    watch?: boolean,
 }) {
-    const srcPaths = await glob(pattern, {
+    const srcPaths = globSync(pattern, {
         ignore: options.ignore,
     });
-    const copyOptions: CopyOptions = {
-        recursive: options.recursive,
-    }
-    await Promise.all(srcPaths.map(async (srcPath) => {
-        await copyTo(srcPath, destPath, copyOptions).catch();
-    }));
-    if(options.watch === undefined) return;
-    chokidar.watch(options.watch === true ? srcPaths : options.watch)
-        .on('change', (srcPath) => {
-            copyTo(srcPath, destPath, copyOptions).catch();
+    const copytoDestFn = (path: string) => {
+        fs.cpSync(path, join(destPath, path), {
+            mode: fs.constants.COPYFILE_FICLONE,
+            errorOnExist: false,
+            recursive: options.recursive,
+            force: options.force,
         });
+    }
+    srcPaths.forEach(copytoDestFn);
+    if(options.watch)
+        chokidar.watch(srcPaths)
+            .on('change', copytoDestFn);
 }
 
 program.parse();
-
-async function prompt(question: string): Promise<string> {
-    const rl = readline.createInterface(process.stdin, process.stdout);
-    let response = await rl.question(question);
-    rl.close();
-    return response;
-}
-
-async function copyTo(srcPath: string, destPath: string, options: CopyOptions | undefined): Promise<void> {
-    await fs.cp(srcPath, join(destPath, srcPath), options);
-}
