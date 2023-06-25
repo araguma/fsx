@@ -8,7 +8,7 @@ import chokidar from 'chokidar';
 
 const program = new Command()
     .name('fsx')
-    .description('A collection of cross-platform compatible, file system manipulation subcommands.')
+    .description('A collection of cross-platform compatible, file system manipulation commands.')
     .version(version);
 
 program.command('rm')

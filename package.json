@@ -1,7 +1,7 @@
 {
   "name": "dev-utils",
   "version": "0.1.0",
-  "description": "A collection of cross-platform compatible, file system manipulation subcommands.",
+  "description": "A collection of cross-platform compatible, file system manipulation commands.",
   "main": "index.js",
   "scripts": {
     "build": "npx tsc"
