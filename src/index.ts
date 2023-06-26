@@ -73,7 +73,7 @@ program.command('mkdir')
     .argument('<string>', 'Directory path')
     .action(mkdir);
 
-function mkdir(path: string) {
+export function mkdir(path: string) {
     fs.mkdirSync(path);
 }
 
