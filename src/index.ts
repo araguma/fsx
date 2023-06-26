@@ -42,7 +42,7 @@ program.command('cp')
     .option('-r, --recursive', 'Copy subdirectories recursively', false)
     .option('-f, --force', 'Force copy', false)
     .option('-i, --ignore <string>', 'Files or directories to ignore')
-    .option('-w, --watch', 'Starts watch mode on source or provided glob', false)
+    .option('-w, --watch', 'Starts watch mode on source files or directories', false)
     .action(cp);
 
 export function cp(pattern: string, destPath: string, options: {
