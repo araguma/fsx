@@ -20,6 +20,14 @@ program.command('rm')
     .option('-i, --ignore <string>', 'Files or directories to ignore')
     .action(rm);
 
+/**
+ * Remove files or directories
+ * @param pattern Files or directories
+ * @param options Configuration options
+ * @param options.recursive Remove subdirectories recursively
+ * @param options.force Force remove
+ * @param options.ignore Files or directories to ignore
+ */
 export function rm(pattern: string, options: {
     recursive?: boolean,
     force?: boolean,
@@ -46,6 +54,16 @@ program.command('cp')
     .option('-w, --watch', 'Starts watch mode on source files or directories', false)
     .action(cp);
 
+/**
+ * Copy files or directories to another destination
+ * @param pattern Source files or directories
+ * @param destPath Destination directory
+ * @param options Configuration options
+ * @param options.recursive Copy subdirectories recursively
+ * @param options.force Force copy
+ * @param options.ignore Files or directories to ignore
+ * @param options.watch Starts watch mode on source files or directories
+ */
 export function cp(pattern: string, destPath: string, options: {
     recursive?: boolean,
     force?: boolean,
@@ -70,10 +88,14 @@ export function cp(pattern: string, destPath: string, options: {
 }
 
 program.command('mkdir')
-    .description('Create directory at the specified path')
+    .description('Create directory at the specified path.')
     .argument('<string>', 'Directory path')
     .action(mkdir);
 
+/**
+ * Create directory at the specified path
+ * @param path Directory path
+ */
 export function mkdir(path: string) {
     fs.mkdirSync(path);
 }
@@ -85,6 +107,13 @@ program.command('watch')
     .option('-i --ignore <string>', 'Files or directories to ignore')
     .action(watch);
 
+/**
+ * Watch a list of files and run a command if any changes occur
+ * @param pattern Files or directories to watch
+ * @param command Command to run if any changes occur
+ * @param options Configuration options
+ * @param options.ignore Files or directories to ignore
+ */
 export function watch(pattern: string, command: string, options: {
     ignore?: string,
 }) {
