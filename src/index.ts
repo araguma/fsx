@@ -68,13 +68,4 @@ export function cp(pattern: string, destPath: string, options: {
             .on('change', copytoDestFn);
 }
 
-program.command('mkdir')
-    .description('Creates a directory in the specified path.')
-    .argument('<string>', 'Path')
-    .action(mkdir);
-
-export function mkdir(pattern: string) {
-    fs.mkdirSync(pattern);
-}
-
 program.parse();
