@@ -2,6 +2,7 @@
 import { version } from '../package.json';
 import fs from 'node:fs';
 import { join } from 'node:path';
+import { exec } from 'node:child_process';
 import { Command }  from 'commander';
 import { globSync } from 'glob';
 import chokidar from 'chokidar';
@@ -75,6 +76,27 @@ program.command('mkdir')
 
 export function mkdir(path: string) {
     fs.mkdirSync(path);
+}
+
+program.command('watch')
+    .description('Watch a list of files and run a command if any changes occur.')
+    .argument('<string>', 'Files or directories to watch')
+    .argument('<string>', 'Command to run if any changes occur')
+    .option('-i --ignore <string>', 'Files or directories to ignore')
+    .action(watch);
+
+export function watch(pattern: string, command: string, options: {
+    ignore?: string,
+}) {
+    const watchPaths = globSync(pattern, {
+        ignore: options.ignore,
+    });
+    chokidar.watch(watchPaths)
+        .on('change', (changePath) => {
+            exec(command.replace(/\[path\]/gi, changePath.replace(/\\/g, '/')), (error, stdout) => {
+                console.log(error ?? stdout);
+            });
+        });
 }
 
 program.parse();
