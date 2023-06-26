@@ -23,14 +23,20 @@ program.command('rm')
 /**
  * Remove files or directories
  * @param pattern Files or directories
- * @param options Configuration options
- * @param options.recursive Remove subdirectories recursively
- * @param options.force Force remove
- * @param options.ignore Files or directories to ignore
+ * @param options Remove options
  */
 export function rm(pattern: string, options: {
+    /**
+     * Remove subdirectories recursively
+     */
     recursive?: boolean,
+    /**
+     * Force remove
+     */
     force?: boolean,
+    /**
+     * Files or directories to ignore
+     */
     ignore?: string,
 }) {
     const srcPaths = globSync(pattern, {
@@ -58,16 +64,24 @@ program.command('cp')
  * Copy files or directories to another destination
  * @param pattern Source files or directories
  * @param destPath Destination directory
- * @param options Configuration options
- * @param options.recursive Copy subdirectories recursively
- * @param options.force Force copy
- * @param options.ignore Files or directories to ignore
- * @param options.watch Starts watch mode on source files or directories
+ * @param options Copy options
  */
 export function cp(pattern: string, destPath: string, options: {
+    /**
+     * Copy subdirectories recursively
+     */
     recursive?: boolean,
+    /**
+     * Force copy
+     */
     force?: boolean,
+    /**
+     * Files or directories to ignore
+     */
     ignore?: string,
+    /**
+     * Starts watch mode on source files or directories
+     */
     watch?: boolean,
 }) {
     const srcPaths = globSync(pattern, {
@@ -111,10 +125,12 @@ program.command('watch')
  * Watch a list of files and run a command if any changes occur
  * @param pattern Files or directories to watch
  * @param command Command to run if any changes occur
- * @param options Configuration options
- * @param options.ignore Files or directories to ignore
+ * @param options Watch options
  */
 export function watch(pattern: string, command: string, options: {
+    /**
+     * Files or directories to ignore
+     */
     ignore?: string,
 }) {
     const watchPaths = globSync(pattern, {
