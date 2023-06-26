@@ -8,7 +8,7 @@ import chokidar from 'chokidar';
 
 const program = new Command()
     .name('fsx')
-    .description('A collection of cross-platform compatible shell commands that are commonly used in npm package development.')
+    .description('A collection of cross-platform compatible functions and shell commands that aid in npm package development.')
     .version(version);
 
 program.command('rm')
@@ -19,7 +19,7 @@ program.command('rm')
     .option('-i, --ignore <string>', 'Files or directories to ignore')
     .action(rm);
 
-function rm(pattern: string, options: {
+export function rm(pattern: string, options: {
     recursive?: boolean,
     force?: boolean,
     ignore?: string,
@@ -45,7 +45,7 @@ program.command('cp')
     .option('-w, --watch', 'Starts watch mode on source or provided glob', false)
     .action(cp);
 
-function cp(pattern: string, destPath: string, options: {
+export function cp(pattern: string, destPath: string, options: {
     recursive?: boolean,
     force?: boolean,
     ignore?: string,
