@@ -9,7 +9,7 @@ import chokidar from 'chokidar';
  * @param destPath Destination directory
  * @param options Copy options
  */
-export function cp(pattern: string, destPath: string, options: {
+function cp(pattern: string, destPath: string, options: {
     /**
      * Copy subdirectories recursively
      */
@@ -43,3 +43,5 @@ export function cp(pattern: string, destPath: string, options: {
         chokidar.watch(srcPaths)
             .on('change', copytoDestFn);
 }
+
+export default cp;

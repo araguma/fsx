@@ -1,12 +1,12 @@
 import fs from 'node:fs';
-import { globSync } from "glob";
+import { globSync } from 'glob';
 
 /**
  * Remove files or directories
  * @param pattern Files or directories
  * @param options Remove options
  */
-export function rm(pattern: string, options: {
+function rm(pattern: string, options: {
     /**
      * Remove subdirectories recursively
      */
@@ -30,3 +30,5 @@ export function rm(pattern: string, options: {
         })
     });
 }
+
+export default rm;

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { version } from '../package.json';
 import { Command }  from 'commander';
-import { mkdir } from './commands/mkdir';
-import { cp } from './commands/cp';
-import { rm } from './commands/rm';
-import { watch } from './commands/watch';
+import mkdir from './commands/mkdir';
+import cp from './commands/cp';
+import rm from './commands/rm';
+import watch from './commands/watch';
 
 const program = new Command()
     .name('fsx')
@@ -41,11 +41,11 @@ program.command('watch')
     .option('-i --ignore <string>', 'Files or directories to ignore')
     .action(watch);
 
+program.parse();
+
 export {
     mkdir,
     cp,
     rm,
     watch,
 };
-
-program.parse();

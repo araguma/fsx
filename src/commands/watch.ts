@@ -8,7 +8,7 @@ import chokidar from 'chokidar';
  * @param command Command to run if any changes occur
  * @param options Watch options
  */
-export function watch(pattern: string, command: string, options: {
+function watch(pattern: string, command: string, options: {
     /**
      * Files or directories to ignore
      */
@@ -24,3 +24,5 @@ export function watch(pattern: string, command: string, options: {
             });
         });
 }
+
+export default watch;
