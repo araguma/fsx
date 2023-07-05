@@ -24,12 +24,14 @@ function server(root: string, options: {
     const app = express();
     app.use(express.static(root));
     app.listen(options.port, () => {
-        console.log(`Server is listening on localhost:${options.port}`);
+        console.log(`Server is listening on http://localhost:${options.port}/`);
     });
 
     chokidar.watch(options.watch ?? root).on('change', (path) => {
         if(options.command)
-            execSync(options.command.replace(/\$path/g, path));
+            execSync(options.command.replace(/\$path/g, path), {
+                stdio: 'inherit',
+            });
     });
 }
 
