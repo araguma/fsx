@@ -11,7 +11,7 @@ const program = new Command()
     .version(version);
 
 program.command('cp')
-    .description('Copy files and directories.')
+    .description('Copy files and directories')
     .argument('<string>', 'Source file or directory')
     .argument('<string>', 'Destination directory')
     .option('-r, --recursive', 'Copy directories recursively', false)
@@ -20,14 +20,14 @@ program.command('cp')
     .action(cp);
 
 program.command('rm')
-    .description('Remove files and directories.')
+    .description('Remove files and directories')
     .argument('<string>', 'File or directory to remove')
     .option('-r, --recursive', 'Remove directories recursively', false)
     .option('-f, --force', 'Ignore nonexistent files and arguments', false)
     .action(rm);
 
 program.command('server')
-    .description('Host a static local server using the specified directory as root.')
+    .description('Host a static local server using the specified directory as root')
     .argument('<string>', 'Root directory')
     .option('-p, --port <number>', 'Port to listen on', '3000')
     .option('-w, --watch <string>', 'Watch directory')
