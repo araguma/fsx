@@ -2,10 +2,11 @@
 import { Command }  from 'commander';
 import { version } from '../package.json';
 import cp from './commands/cp';
+import rm from './commands/rm';
 import server from './commands/server';
 
 const program = new Command()
-    .name('fsx')
+    .name('du')
     .description('A collection of cross-platform compatible functions and shell commands that aid in npm package development.')
     .version(version);
 
@@ -17,6 +18,13 @@ program.command('cp')
     .option('-f, --force', 'Overwrite existing files', false)
     .option('-i, --ignore <string>', 'Ignore file(s) or directory')
     .action(cp);
+
+program.command('rm')
+    .description('Remove files and directories.')
+    .argument('<string>', 'File or directory to remove')
+    .option('-r, --recursive', 'Remove directories recursively', false)
+    .option('-f, --force', 'Ignore nonexistent files and arguments', false)
+    .action(rm);
 
 program.command('server')
     .description('Host a static local server using the specified directory as root.')
