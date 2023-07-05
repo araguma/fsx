@@ -2,9 +2,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { stringToRegex } from '../utils/regex';
 
+/**
+ * Copy files and directories
+ * @param src Source file or directory
+ * @param dest Destination directory
+ * @param options Copy options
+ */
 function cp(src: string, dest: string, options: {
+    /**
+     * Copy directories recursively
+     */
     recursive?: boolean;
+    /**
+     * Overwrite existing files
+     */
     force?: boolean;
+    /**
+     * Ignore file(s) or directory
+     */
     ignore?: string;
 }) {
     src = path.normalize(src);
