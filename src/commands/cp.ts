@@ -34,6 +34,7 @@ function cp(src: string, dest: string, options: {
     }).forEach((entry) => {
         const filePath = path.join(entry.path, entry.name);
         fs.cpSync(filePath, path.join(dest, filePath), {
+            mode: fs.constants.COPYFILE_FICLONE,
             force: options.force ?? false,
         });
     });
