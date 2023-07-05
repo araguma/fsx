@@ -4,6 +4,7 @@ import { version } from '../package.json';
 import cp from './commands/cp';
 import rm from './commands/rm';
 import server from './commands/server';
+import concurrent from './commands/concurrent';
 
 const program = new Command()
     .name('du')
@@ -33,6 +34,11 @@ program.command('server')
     .option('-w, --watch <string>', 'Watch directory')
     .option('-c, --command <string>', 'Command to run on change')
     .action(server);
+
+program.command('concurrent')
+    .description('Run multiple commands concurrently')
+    .argument('<string...>', 'Command(s) to run')
+    .action(concurrent);
 
 program.parse();
 
