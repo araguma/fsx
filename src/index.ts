@@ -1,51 +1,34 @@
 #!/usr/bin/env node
-import { version } from '../package.json';
 import { Command }  from 'commander';
-import mkdir from './commands/mkdir';
+import { version } from '../package.json';
 import cp from './commands/cp';
-import rm from './commands/rm';
-import watch from './commands/watch';
+import server from './commands/server';
 
 const program = new Command()
     .name('fsx')
     .description('A collection of cross-platform compatible functions and shell commands that aid in npm package development.')
     .version(version);
 
-program.command('mkdir')
-    .description('Create directory at the specified path.')
-    .argument('<string>', 'Directory path')
-    .action(mkdir);
-
 program.command('cp')
-    .description('Copy files or directories to another destination.')
-    .argument('<string>', 'Source files or directories')
+    .description('Copy files and directories.')
+    .argument('<string>', 'Source file or directory')
     .argument('<string>', 'Destination directory')
-    .option('-r, --recursive', 'Copy subdirectories recursively', false)
-    .option('-f, --force', 'Force copy', false)
-    .option('-i, --ignore <string>', 'Files or directories to ignore')
-    .option('-w, --watch', 'Starts watch mode on source files or directories', false)
+    .option('-r, --recursive', 'Copy directories recursively', false)
+    .option('-f, --force', 'Overwrite existing files', false)
+    .option('-i, --ignore <string>', 'Ignore file(s) or directory')
     .action(cp);
 
-program.command('rm')
-    .description('Remove files or directories.')
-    .argument('<string>', 'Files or directories')
-    .option('-r, --recursive', 'Remove subdirectories recursively', false)
-    .option('-f, --force', 'Force remove', false)
-    .option('-i, --ignore <string>', 'Files or directories to ignore')
-    .action(rm);
-
-program.command('watch')
-    .description('Watch a list of files and run a command if any changes occur.')
-    .argument('<string>', 'Files or directories to watch')
-    .argument('<string>', 'Command to run if any changes occur')
-    .option('-i --ignore <string>', 'Files or directories to ignore')
-    .action(watch);
+program.command('server')
+    .description('Host a static local server using the specified directory as root.')
+    .argument('<string>', 'Root directory')
+    .option('-p, --port <number>', 'Port to listen on', '3000')
+    .option('-w, --watch <string>', 'Watch directory')
+    .option('-c, --command <string>', 'Command to run on change')
+    .action(server);
 
 program.parse();
 
 export {
-    mkdir,
     cp,
-    rm,
-    watch,
-};
+    server
+}
