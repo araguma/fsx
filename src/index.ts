@@ -3,6 +3,7 @@ import { Command }  from 'commander';
 import { version } from '../package.json';
 import concurrent from './commands/concurrent';
 import cp from './commands/cp';
+import mkdir from './commands/mkdir';
 import rm from './commands/rm';
 import server from './commands/server';
 import watch from './commands/watch';
@@ -26,6 +27,12 @@ program.command('cp')
     .option('-i, --ignore <string>', 'Ignore paths that match regex')
     .option('-w, --watch', 'Start watch mode', false)
     .action(cp);
+
+program.command('mkdir')
+    .description('Create a directory')
+    .argument('<string>', 'Path to create')
+    .option('-p, --parents', 'Create parent directories if they do not exist', false)
+    .action(mkdir);
 
 program.command('rm')
     .description('Remove path')
@@ -53,6 +60,7 @@ program.parse();
 export {
     concurrent,
     cp,
+    mkdir,
     rm,
     server,
     watch,
