@@ -3,6 +3,7 @@ import { Command }  from 'commander';
 import { version } from '../package.json';
 import cp from './commands/cp';
 import rm from './commands/rm';
+import watch from './commands/watch';
 import server from './commands/server';
 import concurrent from './commands/concurrent';
 
@@ -12,27 +13,34 @@ const program = new Command()
     .version(version);
 
 program.command('cp')
-    .description('Copy files and directories')
-    .argument('<string>', 'Source file or directory')
-    .argument('<string>', 'Destination directory')
-    .option('-r, --recursive', 'Copy directories recursively', false)
-    .option('-f, --force', 'Overwrite existing files', false)
-    .option('-i, --ignore <string>', 'Ignore file(s) or directory')
+    .description('Copy path contents to another destination')
+    .argument('<string>', 'Source path')
+    .argument('<string>', 'Destination path')
+    .option('-r, --recursive', 'Copy paths recursively', false)
+    .option('-f, --force', 'Overwrite existing paths', false)
+    .option('-i, --ignore <string>', 'Ignore paths that match regex')
+    .option('-w, --watch', 'Start watch mode', false)
     .action(cp);
 
 program.command('rm')
-    .description('Remove files and directories')
-    .argument('<string>', 'File or directory to remove')
-    .option('-r, --recursive', 'Remove directories recursively', false)
-    .option('-f, --force', 'Ignore nonexistent files and arguments', false)
+    .description('Remove path')
+    .argument('<string>', 'Path to remove')
+    .option('-r, --recursive', 'Remove path recursively', false)
+    .option('-f, --force', 'Ignore nonexistent paths', false)
     .action(rm);
 
+program.command('watch')
+    .description('Watch a path for changes')
+    .argument('<string>', 'Path to watch')
+    .argument('-c, --command <string>', 'Command to run when a file changes')
+    .option('-r, --recursive', 'Watch directories recursively', false)
+    .option('-i, --ignore <string>', 'Ignore paths that match regex')
+    .action(watch);
+
 program.command('server')
-    .description('Host a static local server using the specified directory as root')
+    .description('Starts a static local server')
     .argument('<string>', 'Root directory')
     .option('-p, --port <number>', 'Port to listen on', '3000')
-    .option('-w, --watch <string>', 'Watch directory')
-    .option('-c, --command <string>', 'Command to run on change')
     .action(server);
 
 program.command('concurrent')
@@ -44,5 +52,8 @@ program.parse();
 
 export {
     cp,
-    server
+    rm,
+    watch,
+    server,
+    concurrent,
 }
