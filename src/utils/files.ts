@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { join } from 'node:path';
+import { join, basename } from 'node:path';
 import { stringToRegex } from '../utils/regex';
 
 function getFiles(path: string, options: {
@@ -10,13 +10,12 @@ function getFiles(path: string, options: {
 
     if(fs.lstatSync(path).isFile())
         return [path];
-    return fs.readdirSync(path, {
+    return (fs.readdirSync(path, {
         recursive: options.recursive ?? false,
-        withFileTypes: true,
-    }).filter((entry) => {
-        return entry.isFile() && !ignoreRegex.test(entry.name);
-    }).map((entry) => {
-        return join(entry.path, entry.name);
+    }) as string[]).filter((subpath) => {
+        return fs.lstatSync(join(path, subpath)).isFile() && !ignoreRegex.test(basename(subpath));
+    }).map((subpath) => {
+        return join(path, subpath);
     });
 }
 
