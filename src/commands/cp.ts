@@ -1,42 +1,47 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { stringToRegex } from '../utils/regex';
+import chokidar from 'chokidar';
+import { getFiles } from '../utils/files';
 
 /**
- * Copy files and directories
- * @param src Source file or directory
- * @param dest Destination directory
+ * Copy path contents to another destination
+ * @param src Source path
+ * @param dest Destination path
  * @param options Copy options
  */
 function cp(src: string, dest: string, options: {
     /**
-     * Copy directories recursively
+     * Copy paths recursively
      */
-    recursive?: boolean;
+    recursive: boolean;
     /**
-     * Overwrite existing files
+     * Overwrite existing paths
      */
-    force?: boolean;
+    force: boolean;
     /**
-     * Ignore file(s) or directory
+     * Ignore paths that match regex
      */
     ignore?: string;
+    /**
+     * Start watch mode
+     */
+    watch: boolean;
 }) {
-    src = path.normalize(src);
-    dest = path.normalize(dest);
-    const ignoreRegex = stringToRegex(options.ignore ?? '/$^/');
-
-    fs.readdirSync(src, {
-        recursive: options.recursive ?? false,
-        withFileTypes: true,
-    }).filter((entry) => {
-        return entry.isFile() && !ignoreRegex.test(entry.name);
-    }).forEach((entry) => {
-        const filePath = path.join(entry.path, entry.name);
-        fs.cpSync(filePath, path.join(dest, filePath), {
+    const cpFn = (src: string) => {
+        // Replace the source directory with the destination directory
+        fs.cpSync(src, path.join(dest, src.replace(/^.+?\//, '')), {
             mode: fs.constants.COPYFILE_FICLONE,
             force: options.force ?? false,
         });
+    };
+
+    getFiles(src, {
+        recursive: options.recursive,
+        ignore: options.ignore,
+    }).forEach((file) => {
+        cpFn(file);
+        options.watch && chokidar.watch(file)
+            .on('change', cpFn);
     });
 }
 
