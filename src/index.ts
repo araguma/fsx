@@ -10,7 +10,7 @@ import watch from './commands/watch';
 
 const program = new Command()
     .name('du')
-    .description('A collection of cross-platform compatible functions and shell commands that aid in npm package development.')
+    .description('A collection of cross-platform compatible functions and shell commands that aid in npm package development')
     .version(version);
 
 program.command('concurrent')

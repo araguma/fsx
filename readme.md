@@ -20,11 +20,12 @@ Options:
   -h, --help                                         display help for command
 
 Commands:
-  cp [options] <string> <string>                     Copy path contents to another destination
-  rm [options] <string>                              Remove path
-  watch [options] <string> <-c, --command <string>>  Watch a path for changes
-  server [options] <string>                          Starts a static local server
   concurrent <string...>                             Run multiple commands concurrently
+  cp [options] <string> <string>                     Copy path contents to another destination
+  mkdir [options] <string>                           Create a directory
+  rm [options] <string>                              Remove path
+  server [options] <string>                          Start a static local server
+  watch [options] <string> <-c, --command <string>>  Watch a path for changes
   help [command]                                     display help for command
 ```
 
