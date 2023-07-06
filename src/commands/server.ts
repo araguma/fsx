@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import express from 'express';
 
 /**
- * Starts a static local server
+ * Start a static local server
  * @param root Root directory
  * @param options Server options
  */

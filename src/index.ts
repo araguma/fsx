@@ -38,7 +38,7 @@ program.command('watch')
     .action(watch);
 
 program.command('server')
-    .description('Starts a static local server')
+    .description('Start a static local server')
     .argument('<string>', 'Root directory')
     .option('-p, --port <number>', 'Port to listen on', '3000')
     .action(server);
