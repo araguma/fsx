@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 
 /**
- * Remove files and directories
- * @param path File or directory to remove
+ * Remove path
+ * @param path Path to remove
  * @param options Remove options
  */
 function rm(path: string, options: {
     /**
-     * Remove directories recursively
+     * Remove path recursively
      */
     recursive: boolean;
     /**
-     * Ignore nonexistent files and arguments
+     * Ignore nonexistent paths
      */
     force: boolean;
 }) {
