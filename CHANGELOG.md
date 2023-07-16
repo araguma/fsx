@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/araguma/npm-dev-utils/compare/v1.0.0...v1.0.1) (2023-07-16)
+
+
+### Bug Fixes
+
+* Update watch command syntax ([7ec7a9e](https://github.com/araguma/npm-dev-utils/commit/7ec7a9efdba0dc2c7f3bebdf959367e0ad997781))
+
 ## 1.0.0 (2023-07-11)
 
 
