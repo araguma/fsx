@@ -16,17 +16,17 @@ Usage: du [options] [command]
 A collection of cross-platform compatible functions and shell commands that aid in npm package development
 
 Options:
-  -V, --version                                      output the version number
-  -h, --help                                         display help for command
+  -V, --version                      output the version number
+  -h, --help                         display help for command
 
 Commands:
-  concurrent <string...>                             Run multiple commands concurrently
-  cp [options] <string> <string>                     Copy path contents to another destination
-  mkdir [options] <string>                           Create a directory
-  rm [options] <string>                              Remove path
-  server [options] <string>                          Start a static local server
-  watch [options] <string> <-c, --command <string>>  Watch a path for changes
-  help [command]                                     display help for command
+  concurrent <string...>             Run multiple commands concurrently
+  cp [options] <string> <string>     Copy path contents to another destination
+  mkdir [options] <string>           Create a directory
+  rm [options] <string>              Remove path
+  server [options] <string>          Start a static local server
+  watch [options] <string> <string>  Watch a path for changes
+  help [command]                     display help for command
 ```
 
 ## Examples
