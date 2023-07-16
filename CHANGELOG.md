@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/araguma/npm-dev-utils/compare/v1.0.1...v1.1.0) (2023-07-16)
+
+
+### Features
+
+* **watch:** Implement terminate option ([e3ca814](https://github.com/araguma/npm-dev-utils/commit/e3ca814855e0ad21dbe454a146e62501aafa2a20))
+
 ## [1.0.1](https://github.com/araguma/npm-dev-utils/compare/v1.0.0...v1.0.1) (2023-07-16)
 
 
