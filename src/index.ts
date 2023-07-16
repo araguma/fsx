@@ -50,7 +50,7 @@ program.command('server')
 program.command('watch')
     .description('Watch a path for changes')
     .argument('<string>', 'Path to watch')
-    .argument('-c, --command <string>', 'Command to run when a file changes')
+    .argument('<string>', 'Command to run when a file changes')
     .option('-r, --recursive', 'Watch directories recursively', false)
     .option('-i, --ignore <string>', 'Ignore paths that match regex')
     .action(watch);
