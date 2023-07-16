@@ -1,4 +1,4 @@
-import { execSync } from 'node:child_process';
+import { ChildProcess, exec } from 'node:child_process';
 import chokidar from 'chokidar';
 import { getFiles } from '../utils/files';
 
@@ -17,16 +17,22 @@ function watch(path: string, command: string, options: {
      * Ignore paths that match regex
      */
     ignore?: string;
+    /**
+     * Terminate the previous process before starting a new one
+     */
+    terminate?: boolean
 }) {
+    let childProcess: ChildProcess;
     getFiles(path, {
         recursive: options.recursive,
         ignore: options.ignore,
     }).forEach((file) => {
         chokidar.watch(file)
             .on('change', () => {
-                execSync(command.replace(/\[path\]/gi, file), {
-                    stdio: 'inherit',
-                })
+                !options.terminate || childProcess?.kill();
+                childProcess = exec(command.replace(/\[path\]/gi, file), (error, stdout) => {
+                    error?.killed || console.log(error ?? stdout);
+                });
             });
     });
 }

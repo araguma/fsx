@@ -53,6 +53,7 @@ program.command('watch')
     .argument('<string>', 'Command to run when a file changes')
     .option('-r, --recursive', 'Watch directories recursively', false)
     .option('-i, --ignore <string>', 'Ignore paths that match regex')
+    .option('-t, --terminate', 'Terminate the previous process before starting a new one', false)
     .action(watch);
 
 program.parse();
