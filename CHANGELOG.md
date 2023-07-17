@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/araguma/npm-dev-utils/compare/v1.1.0...v1.1.1) (2023-07-17)
+
+
+### Bug Fixes
+
+* **watch:** Wait for user command to close before restarting ([d0ea3fa](https://github.com/araguma/npm-dev-utils/commit/d0ea3fad22a37dedee915e280fcad5a9c9611fab))
+
 ## [1.1.0](https://github.com/araguma/npm-dev-utils/compare/v1.0.1...v1.1.0) (2023-07-16)
 
 
