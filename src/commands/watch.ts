@@ -1,5 +1,6 @@
 import { ChildProcess, spawn } from 'node:child_process';
 import chokidar from 'chokidar';
+import terminate from 'terminate';
 import { getFiles } from '../utils/files';
 
 /**
@@ -23,16 +24,21 @@ function watch(path: string, command: string, options: {
     terminate?: boolean
 }) {
     let childProcess: ChildProcess;
+    const runCommand = (file: string) => {
+        childProcess = spawn(command.replace(/\[path\]/gi, file), [], {
+            shell: true,
+            stdio: 'inherit',
+        });
+    }
     getFiles(path, {
         recursive: options.recursive,
         ignore: options.ignore,
     }).forEach((file) => {
         chokidar.watch(file)
             .on('change', () => {
-                !options.terminate || childProcess?.kill();
-                childProcess = spawn(command.replace(/\[path\]/gi, file), [], {
-                    shell: true,
-                });
+                if(options.terminate && childProcess?.pid)
+                    terminate(childProcess.pid);
+                runCommand(file);
             });
     });
 }
