@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 
 /**
  * Run multiple commands concurrently
@@ -6,11 +6,9 @@ import { exec } from 'child_process';
  */
 function concurrent(commands: string[]) {
     commands.forEach(command => {
-        exec(command, (error, stdout) => {
-            if(error)
-                console.error(error);
-            if(stdout)
-                process.stdout.write(stdout);
+        spawn(command, [], {
+            shell: true,
+            stdio: 'inherit',
         });
     });
 }
