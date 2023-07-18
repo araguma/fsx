@@ -1,4 +1,4 @@
-import { ChildProcess, exec } from 'node:child_process';
+import { ChildProcess, spawn } from 'node:child_process';
 import chokidar from 'chokidar';
 import { getFiles } from '../utils/files';
 
@@ -23,11 +23,6 @@ function watch(path: string, command: string, options: {
     terminate?: boolean
 }) {
     let childProcess: ChildProcess;
-    const runCommand = (file: string) => {
-        childProcess = exec(command.replace(/\[path\]/gi, file), (error, stdout) => {
-            error?.killed || console.log(error ?? stdout);
-        });
-    }
     getFiles(path, {
         recursive: options.recursive,
         ignore: options.ignore,
@@ -35,9 +30,9 @@ function watch(path: string, command: string, options: {
         chokidar.watch(file)
             .on('change', () => {
                 !options.terminate || childProcess?.kill();
-                childProcess?.on('close', () => {
-                    runCommand(file);
-                }) ?? runCommand(file);
+                childProcess = spawn(command.replace(/\[path\]/gi, file), [], {
+                    shell: true,
+                });
             });
     });
 }
