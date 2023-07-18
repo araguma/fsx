@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/araguma/npm-dev-utils/compare/v1.1.1...v1.2.0) (2023-07-18)
+
+
+### Features
+
+* **concurrent:** Use spawn instead of exec for better logging ([f1a63d1](https://github.com/araguma/npm-dev-utils/commit/f1a63d1e4e9390eed02d6d4340b335756aa6e582))
+* **watch:** Implement initial run option ([02cf6c8](https://github.com/araguma/npm-dev-utils/commit/02cf6c8cf801f6af8a4af48764e0b98c7ab0a809))
+
+
+### Bug Fixes
+
+* **watch:** Fix childProcess not being killed correctly ([2e71fc6](https://github.com/araguma/npm-dev-utils/commit/2e71fc68380343aad1fd216fc5a0a2f0045b9552))
+* **watch:** Fix childProcess not being killed correctly ([2313cb8](https://github.com/araguma/npm-dev-utils/commit/2313cb834fb7a0be2dca6c791085bdc9089b856e))
+
 ## [1.1.1](https://github.com/araguma/npm-dev-utils/compare/v1.1.0...v1.1.1) (2023-07-17)
 
 
