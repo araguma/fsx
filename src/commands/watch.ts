@@ -1,5 +1,6 @@
-import { ChildProcess, exec } from 'node:child_process';
+import { ChildProcess, spawn } from 'node:child_process';
 import chokidar from 'chokidar';
+import terminate from 'terminate';
 import { getFiles } from '../utils/files';
 
 /**
@@ -21,11 +22,16 @@ function watch(path: string, command: string, options: {
      * Terminate the previous process before starting a new one
      */
     terminate?: boolean
+    /**
+     * Run the command once before starting watch mode
+     */
+    initialRun?: boolean;
 }) {
     let childProcess: ChildProcess;
     const runCommand = (file: string) => {
-        childProcess = exec(command.replace(/\[path\]/gi, file), (error, stdout) => {
-            error?.killed || console.log(error ?? stdout);
+        childProcess = spawn(command.replace(/\[path\]/gi, file), [], {
+            shell: true,
+            stdio: 'inherit',
         });
     }
     getFiles(path, {
@@ -34,12 +40,12 @@ function watch(path: string, command: string, options: {
     }).forEach((file) => {
         chokidar.watch(file)
             .on('change', () => {
-                !options.terminate || childProcess?.kill();
-                childProcess?.on('close', () => {
-                    runCommand(file);
-                }) ?? runCommand(file);
+                if(options.terminate && childProcess?.pid)
+                    terminate(childProcess.pid);
+                runCommand(file);
             });
     });
+    !options.initialRun || runCommand(path);
 }
 
 export default watch;
