@@ -22,6 +22,10 @@ function watch(path: string, command: string, options: {
      * Terminate the previous process before starting a new one
      */
     terminate?: boolean
+    /**
+     * Run the command once before starting watch mode
+     */
+    initialRun?: boolean;
 }) {
     let childProcess: ChildProcess;
     const runCommand = (file: string) => {
@@ -41,6 +45,7 @@ function watch(path: string, command: string, options: {
                 runCommand(file);
             });
     });
+    !options.initialRun || runCommand(path);
 }
 
 export default watch;

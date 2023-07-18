@@ -54,6 +54,7 @@ program.command('watch')
     .option('-r, --recursive', 'Watch directories recursively', false)
     .option('-i, --ignore <string>', 'Ignore paths that match regex')
     .option('-t, --terminate', 'Terminate the previous process before starting a new one', false)
+    .option('-I, --initial-run', 'Run the command once before starting watch mode', false)
     .action(watch);
 
 program.parse();
