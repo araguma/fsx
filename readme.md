@@ -9,7 +9,7 @@ npm-dev-utils is a collection of cross-platform compatible functions and shell c
 npm i -D https://github.com/araguma/npm-dev-utils.git#latest
 ```
 
-### Stable version
+### Latest stable version
 ```bash
 npm i -D https://github.com/araguma/npm-dev-utils.git
 ```
